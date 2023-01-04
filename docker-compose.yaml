@@ -1,0 +1,38 @@
+# build: . will look for a dockerfile in the same package
+version: '3.8'
+services:
+  api:
+    build: .
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; uvicorn App.main:app --host 0.0.0.0'
+    volumes:
+      - .:/App
+    ports:
+      - 8008:8000
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: socialmedia_db
+  adminer:
+    container_name: adminerUI
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+
+volumes:
+  postgres_data:
+  
