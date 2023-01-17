@@ -1,13 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-# uncomment in case you want to run the base models creation
-from .database import engine
-from . import models
 from .routers import post, user, auth, vote
+from sqlalchemy_utils import database_exists, create_database
+from . import utils
 
-# SQLAlchemy will see if tables exists, if not it creates
-# Note: If first access uncomment belolow
-models.Base.metadata.create_all(bind=engine)
+# Note: SQLAlchemy will see if tables exists, if not it creates
+utils.database_exists()
 
 # instanciate the framework Fast
 app = FastAPI()

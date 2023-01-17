@@ -18,6 +18,7 @@ Base = declarative_base()
 # for every request in the API this function will create a session to the database and close it when it is done
 def get_db():
     db = SessionLocal()
+    print("GET_DB", db)
     try:
         yield db
     finally:

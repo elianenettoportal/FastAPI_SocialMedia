@@ -1,3 +1,6 @@
+run -> uvicorn App.main:app
+goto -> http://localhost:8000/
+
 :fire:<mark>FAST API</mark>:fire:<br>
 
 <h1> FastAPI Social Media </h1>
